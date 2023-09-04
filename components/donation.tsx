@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 
 export default function Donation() {
 
-  const [form,setForm] = useState({
+  const [text,setText] = useState({
     id:"",
     firstName:"",
     lastName:"",
@@ -15,13 +15,51 @@ export default function Donation() {
     time:"",
   })
 
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function getData() {
+      fetch("https://donation-server-production.up.railway.app/donation")
+        .then((res) => res.json())
+        .then(function (res) {
+          setText((state) => {
+            return {
+              ...state,
+              id:res.id,
+              firstName:res.firstName,
+              lastName:res.lastName,
+              email:res.email,
+              amount:res.amount,
+              time:res.time,
+            };
+          });
+          
+          setLoading(false);
+        });
+    }
+    getData();
+  }, []);
+
+  function onFormChange(event: React.FormEvent<EventTarget>) {
+    const target = event.target as HTMLInputElement;
+    setText((state) => {
+      return {
+        ...state,
+        [target.name]: target.value,
+      };
+    });
+  }
+
   return (
-    <Card withBorder shadow="xs" bg="gray.3">
+      
+        <Card withBorder shadow="xs" bg="gray.3">
       <Group mb={20}>
         <Title order={1} color="gray">
           Total
         </Title>
-        <Title order={1} variant="gradient">
+        <Title 
+        order={1} variant="gradient"
+        >
           10000
         </Title>
         <Title order={1} color="gray">
@@ -58,5 +96,8 @@ export default function Donation() {
         </Paper>
       </Stack>
     </Card>
+    
+      
+    
   );
 }
