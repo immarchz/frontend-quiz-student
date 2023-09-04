@@ -1,9 +1,20 @@
 // import { API_URL } from "../utils/api";
 // import { type Donation } from "@/utils/types";
+import { useState,useEffect } from "react";
 import { Paper, Text, Stack, Group, Title, Card } from "@mantine/core";
 import dayjs from "dayjs";
 
 export default function Donation() {
+
+  const [form,setForm] = useState({
+    id:"",
+    firstName:"",
+    lastName:"",
+    email:"",
+    amount:"",
+    time:"",
+  })
+
   return (
     <Card withBorder shadow="xs" bg="gray.3">
       <Group mb={20}>
